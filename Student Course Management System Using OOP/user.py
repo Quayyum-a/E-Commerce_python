@@ -1,5 +1,6 @@
 import re
 from exception import InvalidEmailError, EmptyFieldError
+from password_encryption import PasswordEncryption, InvalidPasswordError
 
 class User:
     def __init__(self, full_name, email, password, role):
@@ -9,9 +10,12 @@ class User:
             raise InvalidEmailError("Invalid email format")
         if not password.strip():
             raise EmptyFieldError("Password cannot be empty")
-        self.full_name = full_name
+        self.full_name = full_name.replace(',', ' ')  # Replace commas to prevent CSV issues
         self.email = email
-        self.password = password
+        try:
+            self.password = PasswordEncryption(password).encrypt()
+        except InvalidPasswordError as e:
+            raise InvalidPasswordError(str(e))
         self.role = role
 
     @staticmethod
