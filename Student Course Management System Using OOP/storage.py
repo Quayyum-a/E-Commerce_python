@@ -4,7 +4,7 @@ from facilitator import Facilitator
 from course import Course
 from enrollment import Enrollment
 from exception import ResourceAlreadyExistsError, EmptyFieldError, InvalidEmailError, InvalidFormatError
-
+from password_encryption import PasswordEncryption, InvalidPasswordError
 
 class Storage:
     def __init__(self, users_file="users.txt", courses_file="courses.txt", enrollments_file="enrollments.txt"):
@@ -17,7 +17,7 @@ class Storage:
         if existing_user:
             raise ResourceAlreadyExistsError("Email already registered")
         with open(self.users_file, 'a') as file:
-            file.write(f"{user.full_name},{user.email},{user.password},{user.role}\n")
+            file.write(f"{user.full_name.replace(',', ' ')},{user.email},{user.password},{user.role}\n")
 
     def find_user_by_email(self, email):
         if not User._is_valid_email(email):
@@ -39,10 +39,15 @@ class Storage:
     def login_user(self, email, password):
         if not email or not password:
             raise EmptyFieldError("Email and password cannot be empty")
-        user = self.find_user_by_email(email)
-        if user and user.password == password:
-            return user
-        return None
+        try:
+            encrypted_password = PasswordEncryption(password).encrypt()
+            user = self.find_user_by_email(email)
+            if user and user.password == encrypted_password:
+                return user
+            return None
+        except InvalidPasswordError as e:
+            print(f"Error: {e}")
+            return None
 
     def save_course(self, course):
         with open(self.courses_file, 'a') as file:
