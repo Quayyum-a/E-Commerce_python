@@ -3,7 +3,7 @@ from exception import InvalidEmailError, EmptyFieldError
 from password_encryption import PasswordEncryption, InvalidPasswordError
 
 class User:
-    def __init__(self, full_name, email, password, role):
+    def __init__(self, full_name, email, password, role, is_encrypted=False):
         if not full_name.strip():
             raise EmptyFieldError("Full name cannot be empty")
         if not self._is_valid_email(email):
@@ -13,7 +13,7 @@ class User:
         self.full_name = full_name.replace(',', ' ')  # Replace commas to prevent CSV issues
         self.email = email
         try:
-            self.password = PasswordEncryption(password).encrypt()
+            self.password = password if is_encrypted else PasswordEncryption(password).encrypt()
         except InvalidPasswordError as e:
             raise InvalidPasswordError(str(e))
         self.role = role
