@@ -1,9 +1,10 @@
+from enrollment import Enrollment
 from user import User
 from exception import InvalidFormatError, ResourceNotFoundError
 
 class Student(User):
-    def __init__(self, full_name, email, password):
-        super().__init__(full_name, email, password, role='student')
+    def __init__(self, full_name, email, password, is_encrypted=False):
+        super().__init__(full_name, email, password, role='student', is_encrypted=is_encrypted)
         self.enrolled_courses = []
 
     def enroll_in_course(self, course_id, storage):
@@ -15,7 +16,7 @@ class Student(User):
         enrollments = storage.find_enrollments_by_student(self.email)
         if any(e.course_id == course_id for e in enrollments):
             return True
-        from src.domain.enrollment import Enrollment
+
         enrollment = Enrollment(course_id, self.email)
         storage.save_enrollment(enrollment)
         self.enrolled_courses.append(course_id)
