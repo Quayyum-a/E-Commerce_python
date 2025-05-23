@@ -1,13 +1,14 @@
+from course import Course
 from user import User
 from exception import InvalidFormatError, ResourceNotFoundError
 
 class Facilitator(User):
-    def __init__(self, full_name, email, password):
-        super().__init__(full_name, email, password, role='facilitator')
+    def __init__(self, full_name, email, password, is_encrypted=False):
+        super().__init__(full_name, email, password, role='facilitator', is_encrypted=is_encrypted)
         self.created_courses = []
 
     def create_course(self, course_id, name, storage):
-        from src.domain.course import Course
+
         course = Course(course_id, name, self.email)
         storage.save_course(course)
         self.created_courses.append(course_id)
@@ -20,7 +21,7 @@ class Facilitator(User):
         enrollment = storage.find_enrollment_by_course_and_student(course_id, student_email)
         if not enrollment:
             raise ResourceNotFoundError("Student not enrolled in this course")
-        from src.domain.enrollment import Enrollment
+
         enrollment.grade = grade
         storage.save_enrollment(enrollment)
         return True
