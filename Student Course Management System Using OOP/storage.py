@@ -29,9 +29,9 @@ class Storage:
                     if len(parts) == 4 and parts[1] == email:
                         role = parts[3]
                         if role == "student":
-                            return Student(parts[0], parts[1], parts[2])
+                            return Student(parts[0], parts[1], parts[2], is_encrypted=True)
                         elif role == "facilitator":
-                            return Facilitator(parts[0], parts[1], parts[2])
+                            return Facilitator(parts[0], parts[1], parts[2], is_encrypted=True)
                 return None
         except FileNotFoundError:
             return None
