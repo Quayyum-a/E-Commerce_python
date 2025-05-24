@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome true
+
+entity "User" {
+  * email : string <<PK>>
+  --
+  full_name : string
+  password : string
+  role : string
+}
+
+entity "Course" {
+  * course_id : string <<PK>>
+  --
+  name : string
+  facilitator_email : string <<FK>>
+}
+
+entity "Enrollment" {
+  * course_id : string <<FK>>
+  * student_email : string <<FK>>
+  --
+  grade : string
+}
+
+User ||--o{ Course : creates
+User ||--o{ Enrollment : enrolls
+Course ||--o{ Enrollment : contains
+
+note right of User
+  role is either "student" or "facilitator"
+end note
+
+note right of Enrollment
+  (course_id, student_email) is composite primary key
+end note
+
+@enduml
