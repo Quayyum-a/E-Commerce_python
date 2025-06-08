@@ -3,7 +3,7 @@ from app.infrastructure.order_repository import OrderRepository
 from app.infrastructure.product_repository import ProductRepository
 
 class OrderService:
-def __init__(self):
+    def __init__(self):
         self.order_repo = OrderRepository()
         self.product_repo = ProductRepository()
 
