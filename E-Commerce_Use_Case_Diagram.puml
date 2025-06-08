@@ -1,0 +1,23 @@
+@startuml
+actor Customer
+actor Admin
+
+Customer --> (Register)
+Customer --> (Login)
+Customer --> (View Products)
+Customer --> (Place Order)
+Customer --> (View Orders)
+
+Admin --> (Register)
+Admin --> (Login)
+Admin --> (Create Product)
+Admin --> (Update Product)
+
+note right of (Register)
+  Both Customer and Admin can register.
+end note
+
+note right of (Login)
+  Both Customer and Admin can login.
+end note
+@enduml
