@@ -19,5 +19,5 @@ def place_order():
 @jwt_required()
 def get_orders():
     identity = get_jwt_identity()
-          orders = OrderService().get_user_orders(identity['id'])
+    orders = OrderService().get_user_orders(identity['id'])
           return jsonify([{'id': o.id, 'product_id': o.product_id, 'quantity': o.quantity, 'status': o.status} for o in orders]), 200
