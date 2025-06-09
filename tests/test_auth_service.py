@@ -14,7 +14,7 @@ def app():
         'SQLALCHEMY_TRACK_MODIFICATIONS': False,
         'JWT_SECRET_KEY': 'test-secret-key'
     })
-    
+
     with app.app_context():
         # Drop all tables first to ensure a clean state
         db.drop_all()

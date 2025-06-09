@@ -1,6 +1,6 @@
 import pytest
 from app import create_app, db
-from app.domain.user import User
+from app.domain.product import Product
 
 @pytest.fixture(scope='function')
 def app():
@@ -18,7 +18,7 @@ def app():
         # Then create all tables
         db.create_all()
         # Clear any existing data
-        db.session.query(User).delete()
+        db.session.query(Product).delete()
         db.session.commit()
 
         yield app
@@ -32,20 +32,23 @@ def client(app):
     return app.test_client()
 
 @pytest.mark.order(1)
-def test_register_user(client):
-    response = client.post('/api/auth/register', json={
-        'username': 'testuser', 'email': 'again@example.com', 'password': 'password123', 'role': 'customer'
-    })
-    assert response.status_code == 201
-    assert response.json['message'] == 'User registered'
+def test_create_product(client):
+    product_data = {
+        'name': 'Test Product',
+        'description': 'This is a test product',
+        'price': 19.99,
+        'stock': 100
+    }
 
-@pytest.mark.order(2)
-def test_login_user(client):
-    client.post('/api/auth/register', json={
-        'username': 'testuser', 'email': 'test@example.com', 'password': 'password123'
-    })
-    response = client.post('/api/auth/login', json={
-        'email': 'test@example.com', 'password': 'password123'
-    })
-    assert response.status_code == 200
-    assert 'access_token' in response.json
+    response = client.post('/api/products', json=product_data)
+    assert response.status_code == 201
+    assert response.json['message'] == 'Product created'
+    assert 'product_id' in response.json
+
+    with client.application.app_context():
+        product = Product.query.get(response.json['product_id'])
+        assert product is not None
+        assert product.name == product_data['name']
+        assert product.description == product_data['description']
+        assert product.price == product_data['price']
+        assert product.stock == product_data['stock']
