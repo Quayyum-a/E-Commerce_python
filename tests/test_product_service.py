@@ -116,8 +116,7 @@ class TestProductEndpoints:
                 json=product_data,
                 headers=headers
             )
-            
-            # Assert
+
             assert response.status_code == HTTPStatus.CREATED
             response_data = response.get_json()
             assert response_data['message'] == 'Product created successfully'
