@@ -197,7 +197,6 @@ class TestProductEndpoints:
                 assert product['stock'] == TEST_PRODUCTS[i]['stock']
     
     def test_update_product_success(self, client, app):
-        """Test updating a product with valid data."""
         with app.app_context():
             # Arrange
             headers = get_auth_headers(app)
