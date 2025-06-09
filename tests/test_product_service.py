@@ -149,8 +149,7 @@ class TestProductEndpoints:
             json=TEST_PRODUCTS[0],
             content_type='application/json'
         )
-        
-        # Assert
+
         assert response.status_code == HTTPStatus.UNAUTHORIZED
     
     def test_create_product_forbidden(self, client, app):
