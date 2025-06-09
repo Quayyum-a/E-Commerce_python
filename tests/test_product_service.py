@@ -225,7 +225,6 @@ class TestProductEndpoints:
             assert product.stock == update_data['stock']
     
     def test_update_product_partial(self, client, app):
-        """Test updating a product with partial data."""
         with app.app_context():
             # Arrange
             headers = get_auth_headers(app)
