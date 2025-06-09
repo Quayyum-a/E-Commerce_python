@@ -26,20 +26,6 @@ class ProductService:
         return product
 
     def update_product(self, product_id: int, **update_data) -> Product:
-        """
-        Update a product with the given data.
-        
-        Args:
-            product_id: The ID of the product to update
-            **update_data: Fields to update (name, price, stock)
-            
-        Returns:
-            Product: The updated product
-            
-        Raises:
-            NotFoundException: If product is not found
-            ValidationException: If update data is invalid
-        """
         product = self.get_product_by_id(product_id)
         
         try:
