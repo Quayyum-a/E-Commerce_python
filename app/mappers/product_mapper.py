@@ -27,6 +27,5 @@ class ProductMapper:
     
     @staticmethod
     def update_to_entity(update_dto: ProductUpdateRequest) -> Dict[str, Any]:
-        """Convert a ProductUpdateRequest DTO to a dictionary for entity update"""
         # Only include fields that are not None
         return {k: v for k, v in update_dto.model_dump().items() if v is not None}
