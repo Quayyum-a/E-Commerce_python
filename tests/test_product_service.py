@@ -6,7 +6,7 @@ from app import create_app, db
 from app.domain.user import User
 from app.domain.product import Product
 
-# Test data
+
 TEST_ADMIN = {
     'username': 'testadmin',
     'email': 'admin@test.com',
@@ -213,8 +213,7 @@ class TestProductEndpoints:
                 json=update_data,
                 headers=headers
             )
-            
-            # Assert
+
             assert response.status_code == HTTPStatus.OK
             response_data = response.get_json()
             assert response_data['message'] == 'Product updated successfully'
@@ -282,5 +281,4 @@ class TestProductEndpoints:
             f'/api/products/{non_existent_id}',
             headers=headers
         )
-
         assert response.status_code == HTTPStatus.NOT_FOUND
