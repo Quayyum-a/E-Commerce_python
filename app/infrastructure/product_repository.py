@@ -11,15 +11,6 @@ class ProductRepository:
         return product
 
     def find_product_by_id(self, product_id: int) -> Optional[Product]:
-        """
-        Find a product by its ID.
-        
-        Args:
-            product_id: The ID of the product to find
-            
-        Returns:
-            Optional[Product]: The found product, or None if not found
-        """
         return Product.query.get(product_id)
 
     def find_all_products(self) -> List[Product]:
