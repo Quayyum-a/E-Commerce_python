@@ -11,7 +11,6 @@ class ProductMapper:
     
     @staticmethod
     def to_list_response(products: List[Product], total: int) -> ProductListResponse:
-        """Convert a list of Product domain models to a ProductListResponse DTO"""
         return ProductListResponse(
             products=[ProductMapper.to_response(p) for p in products],
             total=total
