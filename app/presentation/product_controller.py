@@ -11,7 +11,6 @@ from app.mappers.product_mapper import ProductMapper
 bp = Blueprint('product', __name__, url_prefix='/api/products')
 
 def _get_user_role(identity: Any, jwt: Dict[str, Any]) -> str:
-    """Helper to get user role from JWT identity"""
     if isinstance(identity, dict):
         return identity.get('role')
     return jwt.get('role')
