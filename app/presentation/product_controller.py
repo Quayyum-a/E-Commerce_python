@@ -52,7 +52,6 @@ def create_product():
 
 @bp.route('', methods=['GET'])
 def get_products():
-    # Get products from service
     products = ProductService().get_products()
     
     # Convert to response DTO
