@@ -34,8 +34,7 @@ def create_product():
     user_role = _get_user_role(identity, get_jwt())
     if user_role != 'admin':
         raise ForbiddenException("Admin access required")
-    
-    # Validate and parse request
+
     try:
         create_dto = ProductCreateRequest(**request.get_json())
     except Exception as e:
