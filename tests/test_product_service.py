@@ -110,8 +110,7 @@ class TestProductEndpoints:
         with app.app_context():
             headers = get_auth_headers(app)
             product_data = TEST_PRODUCTS[0]
-            
-            # Act
+
             response = client.post(
                 '/api/products',
                 json=product_data,
