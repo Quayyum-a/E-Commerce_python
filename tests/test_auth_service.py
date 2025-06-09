@@ -22,8 +22,6 @@ def app():
         db.session.commit()
         
         yield app
-        
-        # Clean up after test
         db.session.remove()
         db.drop_all()
 
