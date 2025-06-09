@@ -23,7 +23,7 @@ TEST_PRODUCTS = [
 # Fixtures
 @pytest.fixture(scope='function')
 def app():
-    """Create and configure a new app instance for each test."""
+
     app = create_app()
     app.config.update({
         'TESTING': True,
