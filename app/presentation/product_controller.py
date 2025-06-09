@@ -43,7 +43,7 @@ def create_product():
     product_data = ProductMapper.create_to_entity(create_dto)
     product = ProductService().create_product(**product_data)
     
-    # Return response
+
     response = ProductMapper.to_message_response(
         message="Product created successfully",
         product_id=product.id
