@@ -20,18 +20,6 @@ class ProductService:
         return self.product_repo.find_all_products()
 
     def get_product_by_id(self, product_id: int) -> Product:
-        """
-        Get a product by its ID.
-        
-        Args:
-            product_id: The ID of the product to retrieve
-            
-        Returns:
-            Product: The requested product
-            
-        Raises:
-            NotFoundException: If product is not found
-        """
         product = self.product_repo.find_product_by_id(product_id)
         if not product:
             raise NotFoundException("Product")
