@@ -165,8 +165,7 @@ class TestProductEndpoints:
     
     def test_get_products_empty(self, client, app):
         response = client.get('/api/products')
-        
-        # Assert
+
         assert response.status_code == HTTPStatus.OK
         response_data = response.get_json()
         assert isinstance(response_data, dict)
