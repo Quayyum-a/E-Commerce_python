@@ -16,7 +16,6 @@ def app():
     })
 
     with app.app_context():
-        # Drop all tables first to ensure a clean state
         db.drop_all()
         # Then create all tables
         db.create_all()
