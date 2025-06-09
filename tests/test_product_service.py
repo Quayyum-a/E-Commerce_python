@@ -160,8 +160,7 @@ class TestProductEndpoints:
             json=TEST_PRODUCTS[0],
             headers=headers
         )
-        
-        # Assert
+
         assert response.status_code == HTTPStatus.FORBIDDEN
     
     def test_get_products_empty(self, client, app):
