@@ -16,7 +16,6 @@ class AppException(Exception):
         super().__init__(self.message)
 
 class NotFoundException(AppException):
-    """Raised when a resource is not found"""
     def __init__(self, resource: str, **kwargs):
         super().__init__(
             message=f"{resource} not found",
