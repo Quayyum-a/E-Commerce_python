@@ -69,7 +69,7 @@ def update_product(product_id: int):
     if user_role != 'admin':
         raise ForbiddenException("Admin access required")
     
-    # Validate and parse request
+
     try:
         update_dto = ProductUpdateRequest(**request.get_json())
     except Exception as e:
