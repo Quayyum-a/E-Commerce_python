@@ -1,11 +1,11 @@
-import pytest
-from flask_jwt_extended import create_access_token, JWTManager
 from http import HTTPStatus
 
+import pytest
+from flask_jwt_extended import create_access_token, JWTManager
+
 from app import create_app, db
-from app.domain.user import User
 from app.domain.product import Product
-from app.domain.order import Order
+from app.domain.user import User
 
 TEST_USER = {
     'username': 'testuser',
