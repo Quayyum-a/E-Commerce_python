@@ -96,11 +96,8 @@ def test_login_success(client):
     assert 'access_token' in response.json
 
 def test_login_invalid_credentials(client):
-    """Test login with invalid credentials"""
-    # Register user
     client.post('/api/auth/register', json=TEST_USER)
 
-    # Wrong password
     response = client.post('/api/auth/login',
                          json={
                              'email': TEST_USER['email'],
@@ -108,7 +105,6 @@ def test_login_invalid_credentials(client):
                          })
     assert response.status_code == 401
 
-    # Non-existent email
     response = client.post('/api/auth/login',
                          json={
                              'email': 'nonexistent@example.com',
