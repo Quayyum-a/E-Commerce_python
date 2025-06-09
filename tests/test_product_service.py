@@ -153,7 +153,6 @@ class TestProductEndpoints:
         assert response.status_code == HTTPStatus.UNAUTHORIZED
     
     def test_create_product_forbidden(self, client, app):
-        """Test creating a product with non-admin user."""
         # Arrange
         headers = get_auth_headers(app, role='user')
         
