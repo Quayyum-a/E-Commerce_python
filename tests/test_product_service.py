@@ -179,11 +179,9 @@ class TestProductEndpoints:
         with app.app_context():
             headers = get_auth_headers(app)
             created_products = create_test_products(client, headers)
-            
-            # Act
+
             response = client.get('/api/products')
-            
-            # Assert
+
             assert response.status_code == HTTPStatus.OK
             response_data = response.get_json()
             assert isinstance(response_data, dict)
