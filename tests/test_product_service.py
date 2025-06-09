@@ -231,15 +231,13 @@ class TestProductEndpoints:
             product_id = created_products[0]['product_id']
 
             update_data = {'price': 899.99}
-            
-            # Act
+
             response = client.put(
                 f'/api/products/{product_id}',
                 json=update_data,
                 headers=headers
             )
-            
-            # Assert
+
             assert response.status_code == HTTPStatus.OK
             
             # Verify only price was updated
