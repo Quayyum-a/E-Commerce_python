@@ -13,12 +13,6 @@ class ProductRepository:
         return Product.query.get(product_id)
 
     def find_all_products(self) -> List[Product]:
-        """
-        Retrieve all products from the database.
-        
-        Returns:
-            List[Product]: A list of all products
-        """
         return Product.query.all()
     
     def delete_product(self, product: Product) -> bool:
