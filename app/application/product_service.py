@@ -10,18 +10,6 @@ class ProductService:
         self.product_repo = product_repo or ProductRepository()
 
     def create_product(self, **product_data) -> Product:
-        """
-        Create a new product with the given data.
-        
-        Args:
-            **product_data: Product data including name, price, and stock
-            
-        Returns:
-            Product: The created product
-            
-        Raises:
-            ValidationException: If product data is invalid
-        """
         try:
             product = Product(**product_data)
             return self.product_repo.save_product(product)
