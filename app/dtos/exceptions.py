@@ -40,7 +40,6 @@ class UnauthorizedException(AppException):
         )
 
 class ForbiddenException(AppException):
-    """Raised when user doesn't have permission"""
     def __init__(self, message: str = "Insufficient permissions", **kwargs):
         super().__init__(
             message=message,
