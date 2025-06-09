@@ -38,17 +38,5 @@ class ProductService:
             raise ValidationException(f"Failed to update product: {str(e)}")
     
     def delete_product(self, product_id: int) -> bool:
-        """
-        Delete a product by its ID.
-        
-        Args:
-            product_id: The ID of the product to delete
-            
-        Returns:
-            bool: True if deletion was successful
-            
-        Raises:
-            NotFoundException: If product is not found
-        """
         product = self.get_product_by_id(product_id)
         return self.product_repo.delete_product(product)
