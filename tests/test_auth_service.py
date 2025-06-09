@@ -17,7 +17,6 @@ def app():
 
     with app.app_context():
         db.drop_all()
-        # Then create all tables
         db.create_all()
         # Clear any existing data
         db.session.query(User).delete()
