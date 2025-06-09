@@ -1,8 +1,9 @@
-from typing import List, Dict, Any, Optional
+from typing import List, Optional
 
 from app.domain.product import Product
-from app.infrastructure.product_repository import ProductRepository
 from app.dtos.exceptions import NotFoundException, ValidationException
+from app.infrastructure.product_repository import ProductRepository
+
 
 class ProductService:
     def __init__(self, product_repo: Optional[ProductRepository] = None):
