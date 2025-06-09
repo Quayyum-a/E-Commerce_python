@@ -80,8 +80,7 @@ def update_product(product_id: int):
     
     if not product:
         raise NotFoundException("Product")
-    
-    # Return response
+
     response = ProductMapper.to_message_response(
         message="Product updated successfully",
         product_id=product.id
