@@ -191,8 +191,12 @@ class TestProductEndpoints:
         # Assert
         assert response.status_code == HTTPStatus.OK
         response_data = response.get_json()
-        assert isinstance(response_data, list)
-        assert len(response_data) == 0
+        assert isinstance(response_data, dict)
+        assert 'products' in response_data
+        assert 'total' in response_data
+        assert isinstance(response_data['products'], list)
+        assert len(response_data['products']) == 0
+        assert response_data['total'] == 0
     
     def test_get_products_success(self, client, app):
         """Test getting all products."""
@@ -207,11 +211,15 @@ class TestProductEndpoints:
             # Assert
             assert response.status_code == HTTPStatus.OK
             response_data = response.get_json()
-            assert isinstance(response_data, list)
-            assert len(response_data) == len(created_products)
+            assert isinstance(response_data, dict)
+            assert 'products' in response_data
+            assert 'total' in response_data
+            assert isinstance(response_data['products'], list)
+            assert len(response_data['products']) == len(created_products)
+            assert response_data['total'] == len(created_products)
             
             # Verify product data
-            for i, product in enumerate(response_data):
+            for i, product in enumerate(response_data['products']):
                 assert product['name'] == TEST_PRODUCTS[i]['name']
                 assert float(product['price']) == TEST_PRODUCTS[i]['price']
                 assert product['stock'] == TEST_PRODUCTS[i]['stock']
