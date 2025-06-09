@@ -270,8 +270,7 @@ class TestProductEndpoints:
             assert response.status_code == HTTPStatus.OK
             response_data = response.get_json()
             assert response_data['message'] == 'Product deleted successfully'
-            
-            # Verify product was deleted from the database
+
             product = Product.query.get(product_id)
             assert product is None
     
