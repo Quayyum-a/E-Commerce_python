@@ -245,7 +245,6 @@ class TestProductEndpoints:
             assert product.name == TEST_PRODUCTS[0]['name']
     
     def test_update_product_not_found(self, client, app):
-        """Test updating a non-existent product."""
         # Arrange
         headers = get_auth_headers(app)
         non_existent_id = 9999
