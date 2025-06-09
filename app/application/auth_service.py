@@ -7,6 +7,8 @@ class AuthService:
         self.user_repo = UserRepository()
 
     def register_user(self, username, email, password, role='customer'):
+        if not self._is_valid_email(email):
+            raise ValueError("Invalid email format")
         if self.user_repo.find_user_by_email(email):
             raise ValueError("Email already exists")
         user = User(username=username, email=email, role=role)
@@ -18,3 +20,8 @@ class AuthService:
         if user and user.check_password(password):
                 return create_access_token(identity={'id': user.id, 'role': user.role})
         raise ValueError("Invalid credentials")
+
+    def _is_valid_email(self, email):
+        import re
+        pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+        return re.match(pattern, email) is not None

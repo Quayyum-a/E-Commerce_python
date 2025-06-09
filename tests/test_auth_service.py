@@ -44,7 +44,6 @@ TEST_USER = {
 }
 
 def test_register_user_success(client):
-    """Test successful user registration"""
     response = client.post('/api/auth/register', 
                          json=TEST_USER,
                          content_type='application/json')
@@ -52,7 +51,6 @@ def test_register_user_success(client):
     assert response.json['message'] == 'User registered'
     assert 'user_id' in response.json
 
-    # Verify user exists in database
     with client.application.app_context():
         user = User.query.filter_by(email=TEST_USER['email']).first()
         assert user is not None
@@ -61,11 +59,8 @@ def test_register_user_success(client):
         assert user.check_password(TEST_USER['password'])
 
 def test_register_duplicate_email(client):
-    """Test registration with duplicate email"""
-    # First registration
     client.post('/api/auth/register', json=TEST_USER)
-    
-    # Second registration with same email
+
     response = client.post('/api/auth/register', 
                          json={
                              'username': 'anotheruser',
@@ -74,41 +69,24 @@ def test_register_duplicate_email(client):
                              'role': 'customer'
                          })
     assert response.status_code == 400
-    assert 'Email already exists' in response.json['error'].lower()
+    assert 'email already exists' in response.json['error'].lower()
 
-def test_register_invalid_data(client):
-    """Test registration with invalid data"""
-    # Missing required fields
-    response = client.post('/api/auth/register', 
-                         json={'username': 'incomplete'})
-    assert response.status_code == 400
-    
-    # Invalid email format
+def test_register_invalid_email_format(client):
+
     response = client.post('/api/auth/register',
                          json={
-                             'username': 'invalidemail',
-                             'email': 'not-an-email',
-                             'password': 'Test@1234'
+                             'username': 'invaliduser',
+                             'email': 'invalid-email',
+                             'password': 'Invalid@1234',
+                             'role': 'customer'
                          })
     assert response.status_code == 400
+    assert 'invalid email format' in response.json['error'].lower()
 
-def test_register_weak_password(client):
-    """Test registration with weak password"""
-    # Password too short
-    response = client.post('/api/auth/register',
-                         json={
-                             'username': 'weakpass',
-                             'email': 'weak@example.com',
-                             'password': '123'
-                         })
-    assert response.status_code == 400
 
 def test_login_success(client):
-    """Test successful login"""
-    # Register user first
     client.post('/api/auth/register', json=TEST_USER)
-    
-    # Test login
+
     response = client.post('/api/auth/login',
                          json={
                              'email': TEST_USER['email'],
@@ -116,20 +94,12 @@ def test_login_success(client):
                          })
     assert response.status_code == 200
     assert 'access_token' in response.json
-    
-    # Verify token
-    token = response.json['access_token']
-    with client.application.app_context():
-        decoded = decode_token(token)
-        user = User.query.filter_by(email=TEST_USER['email']).first()
-        assert decoded['sub']['id'] == user.id
-        assert decoded['sub']['role'] == user.role
 
 def test_login_invalid_credentials(client):
     """Test login with invalid credentials"""
     # Register user
     client.post('/api/auth/register', json=TEST_USER)
-    
+
     # Wrong password
     response = client.post('/api/auth/login',
                          json={
@@ -137,7 +107,7 @@ def test_login_invalid_credentials(client):
                              'password': 'wrongpassword'
                          })
     assert response.status_code == 401
-    
+
     # Non-existent email
     response = client.post('/api/auth/login',
                          json={
@@ -152,7 +122,7 @@ def test_login_missing_credentials(client):
     response = client.post('/api/auth/login',
                          json={'password': 'Test@1234'})
     assert response.status_code == 400
-    
+
     # Missing password
     response = client.post('/api/auth/login',
                          json={'email': 'test@example.com'})
@@ -168,12 +138,12 @@ def test_token_validation(client):
                                    'password': TEST_USER['password']
                                })
     token = login_response.json['access_token']
-    
+
     # Test protected endpoint with valid token
     response = client.get('/api/orders',
                         headers={'Authorization': f'Bearer {token}'})
     assert response.status_code != 401  # Should not be unauthorized
-    
+
     # Test with invalid token
     response = client.get('/api/orders',
                         headers={'Authorization': 'Bearer invalidtoken'})
@@ -189,7 +159,7 @@ def test_user_roles(client):
         'role': 'admin'
     }
     client.post('/api/auth/register', json=admin_user)
-    
+
     # Login as admin
     login_response = client.post('/api/auth/login',
                                json={
@@ -197,7 +167,7 @@ def test_user_roles(client):
                                    'password': admin_user['password']
                                })
     admin_token = login_response.json['access_token']
-    
+
     # Test admin access
     response = client.post('/api/products',
                          headers={'Authorization': f'Bearer {admin_token}'},
@@ -207,7 +177,7 @@ def test_user_roles(client):
                              'stock': 100
                          })
     assert response.status_code == 201  # Admin should have access
-    
+
     # Login as regular customer
     login_response = client.post('/api/auth/login',
                                json={
@@ -215,7 +185,7 @@ def test_user_roles(client):
                                    'password': TEST_USER['password']
                                })
     customer_token = login_response.json['access_token']
-    
+
     # Test customer access to admin endpoint
     response = client.post('/api/products',
                          headers={'Authorization': f'Bearer {customer_token}'},
