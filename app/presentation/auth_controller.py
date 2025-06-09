@@ -18,6 +18,10 @@ def register():
 @bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
+    if not data.get('email'):
+        return jsonify({'error': 'Email is required'}), 401
+    if not data.get('password'):
+        return jsonify({'error': 'Password is required'}), 401
     try:
         token = AuthService().login_user(data['email'], data['password'])
         return jsonify({'access_token': token}), 200
