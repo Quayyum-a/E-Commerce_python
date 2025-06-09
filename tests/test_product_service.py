@@ -2,7 +2,8 @@ import pytest
 from app import create_app, db
 from app.domain.product import Product
 from app.domain.user import User
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, JWTManager
+import os
 
 # Test admin user data
 TEST_ADMIN = {
@@ -20,8 +21,12 @@ def app():
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
         'SQLALCHEMY_TRACK_MODIFICATIONS': False,
         'JWT_SECRET_KEY': 'test-secret-key',
-        'JWT_IDENTITY_CLAIM': 'sub'
+        'JWT_ACCESS_TOKEN_EXPIRES': False  # Tokens won't expire during testing
     })
+    
+    # Initialize JWT with the test app
+    jwt = JWTManager()
+    jwt.init_app(app)
     
     with app.app_context():
         # Drop all tables first to ensure a clean state
@@ -39,6 +44,9 @@ def app():
         db.session.add(admin)
         db.session.commit()
         
+        # Store the admin user ID for use in tests
+        app.config['TEST_ADMIN_ID'] = admin.id
+        
         yield app
         
         # Clean up after test
@@ -49,16 +57,21 @@ def app():
 def client(app):
     return app.test_client()
 
-def get_auth_headers(app, user_id=1, role='admin'):
+def get_auth_headers(app, user_id=None, role='admin'):
     """Helper function to get authentication headers"""
     with app.app_context():
-        # Create a proper identity dictionary with string values
-        identity = str(user_id)  # Ensure identity is a string
-        # Create access token with the identity and additional claims
-        access_token = create_access_token(
-            identity=identity,
-            additional_claims={"role": role}
-        )
+        if user_id is None:
+            user_id = app.config.get('TEST_ADMIN_ID', 1)
+            
+        # Create the identity as a dictionary with 'id' and 'role' keys
+        identity = {
+            'id': user_id,
+            'role': role
+        }
+        
+        # Create access token with the identity
+        access_token = create_access_token(identity=identity)
+        
         return {
             'Authorization': f'Bearer {access_token}',
             'Content-Type': 'application/json'
