@@ -67,7 +67,6 @@ def app():
 
 @pytest.fixture
 def client(app):
-    """A test client for the app."""
     return app.test_client()
 
 def get_auth_headers(app, user_id=None, role='admin'):
