@@ -242,7 +242,7 @@ class TestProductEndpoints:
 
             product = Product.query.get(product_id)
             assert product.price == update_data['price']
-            assert product.name == TEST_PRODUCTS[0]['name']  # Should remain unchanged
+            assert product.name == TEST_PRODUCTS[0]['name']
     
     def test_update_product_not_found(self, client, app):
         """Test updating a non-existent product."""
@@ -270,8 +270,7 @@ class TestProductEndpoints:
                 f'/api/products/{product_id}',
                 headers=headers
             )
-            
-            # Assert
+
             assert response.status_code == HTTPStatus.OK
             response_data = response.get_json()
             assert response_data['message'] == 'Product deleted successfully'
