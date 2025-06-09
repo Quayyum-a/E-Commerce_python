@@ -90,7 +90,6 @@ def update_product(product_id: int):
 @bp.route('/<int:product_id>', methods=['DELETE'])
 @jwt_required()
 def delete_product(product_id: int):
-    # Check admin access
     identity = get_jwt_identity()
     user_role = _get_user_role(identity, get_jwt())
     if user_role != 'admin':
