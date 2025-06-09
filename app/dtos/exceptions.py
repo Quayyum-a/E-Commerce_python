@@ -24,7 +24,6 @@ class NotFoundException(AppException):
         )
 
 class ValidationException(AppException):
-    """Raised when input validation fails"""
     def __init__(self, message: str = "Validation error", **kwargs):
         super().__init__(
             message=message,
