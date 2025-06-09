@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.application.auth_service import AuthService
-from flask_jwt_extended import jwt_required, get_jwt_identity
+
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
 
@@ -13,7 +13,7 @@ def register():
         )
         return jsonify({'message': 'User registered', 'user_id': user.id}), 201
     except ValueError as e:
-        return jsonify({'error': str(e)}), 400
+        return jsonify({'error': str(e)}), 400, "email already exist"
 
 @bp.route('/login', methods=['POST'])
 def login():

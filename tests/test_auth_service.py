@@ -2,7 +2,7 @@ import pytest
 from app import create_app, db
 
 
-@pytest.fixture
+@pytest.fixture(scope='function')
 def app():
     app = create_app()
     app.config['TESTING'] = True
@@ -18,17 +18,17 @@ def client(app):
 
 def test_register_user(client):
     response = client.post('/api/auth/register', json={
-        'username': 'testuser', 'email': 'test@example.com', 'password': 'password123', 'role': 'customer'
+        'username': 'testuser', 'email': 'testagain@example.com', 'password': 'password123', 'role': 'customer'
     })
     assert response.status_code == 201
     assert response.json['message'] == 'User registered'
 
 def test_login_user(client):
     client.post('/api/auth/register', json={
-        'username': 'testuser', 'email': 'test@example.com', 'password': 'password123'
+        'username': 'testuser', 'email': 'testagain@example.com', 'password': 'password123'
     })
     response = client.post('/api/auth/login', json={
-        'email': 'test@example.com', 'password': 'password123'
+        'email': 'testagain@example.com', 'password': 'password123'
     })
     assert response.status_code == 200
     assert 'access_token' in response.json
