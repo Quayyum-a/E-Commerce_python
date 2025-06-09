@@ -2,6 +2,7 @@ import pytest
 from app import create_app, db
 from app.domain.product import Product
 from app.domain.user import User
+from flask_jwt_extended import create_access_token
 
 # Test admin user data
 TEST_ADMIN = {
@@ -18,7 +19,8 @@ def app():
         'TESTING': True,
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
         'SQLALCHEMY_TRACK_MODIFICATIONS': False,
-        'JWT_SECRET_KEY': 'test-secret-key'
+        'JWT_SECRET_KEY': 'test-secret-key',
+        'JWT_IDENTITY_CLAIM': 'sub'
     })
     
     with app.app_context():
@@ -47,19 +49,24 @@ def app():
 def client(app):
     return app.test_client()
 
-def get_auth_headers(client):
+def get_auth_headers(app, user_id=1, role='admin'):
     """Helper function to get authentication headers"""
-    # Login to get token
-    login_response = client.post('/api/auth/login', json={
-        'email': TEST_ADMIN['email'],
-        'password': TEST_ADMIN['password']
-    })
-    token = login_response.json['access_token']
-    return {'Authorization': f'Bearer {token}'}
+    with app.app_context():
+        # Create a proper identity dictionary with string values
+        identity = str(user_id)  # Ensure identity is a string
+        # Create access token with the identity and additional claims
+        access_token = create_access_token(
+            identity=identity,
+            additional_claims={"role": role}
+        )
+        return {
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json'
+        }
 
-def test_create_product(client):
-
-    headers = get_auth_headers(client)
+def test_create_product(client, app):
+    # Get authentication headers
+    headers = get_auth_headers(app)
     
     # Test data
     product_data = {
@@ -73,6 +80,10 @@ def test_create_product(client):
                          json=product_data,
                          headers=headers)
     
+    # Debug output
+    print(f"Response status: {response.status_code}")
+    print(f"Response data: {response.data}")
+    
     # Assertions
     assert response.status_code == 201, f"Expected status code 201, got {response.status_code}. Response: {response.data}"
     assert 'message' in response.json
@@ -80,7 +91,7 @@ def test_create_product(client):
     assert 'product_id' in response.json
     
     # Verify the product was actually created in the database
-    with client.application.app_context():
+    with app.app_context():
         product = Product.query.first()
         assert product is not None
         assert product.name == product_data['name']
