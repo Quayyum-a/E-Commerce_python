@@ -10,7 +10,7 @@ def place_order():
     identity = get_jwt_identity()
     data = request.get_json()
     try:
-        order = OrderService().place_order(identity['id'], data['product_id'], data['quantity'])
+        order = OrderService().place_order(identity, data['product_id'], data['quantity'])
         return jsonify({'message': 'Order placed', 'order_id': order.id}), 201
     except ValueError as e:
         return jsonify({'error': str(e)}), 400
@@ -19,5 +19,5 @@ def place_order():
 @jwt_required()
 def get_orders():
     identity = get_jwt_identity()
-    orders = OrderService().get_user_orders(identity['id'])
+    orders = OrderService().get_user_orders(identity)
     return jsonify([{'id': o.id, 'product_id': o.product_id, 'quantity': o.quantity, 'status': o.status} for o in orders]), 200

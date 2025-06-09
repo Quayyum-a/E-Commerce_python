@@ -9,7 +9,8 @@ class ProductBase(BaseModel):
     stock: int = Field(..., ge=0)
 
     @field_validator('price')
-    def validate_price(self, v):
+    @classmethod
+    def validate_price(cls, v):
         if v <= 0:
             raise ValueError('Price must be greater than 0')
         return round(v, 2)
