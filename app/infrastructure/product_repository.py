@@ -3,7 +3,6 @@ from app.domain.product import Product
 from app import db
 
 class ProductRepository:
-    """Repository class for handling database operations for Products."""
     
     def save_product(self, product: Product) -> Product:
         """
