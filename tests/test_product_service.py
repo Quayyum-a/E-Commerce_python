@@ -1,9 +1,8 @@
 import pytest
-from app import create_app, db
-from app.domain.product import Product
-from app.domain.user import User
 from flask_jwt_extended import create_access_token, JWTManager
 
+from app import create_app, db
+from app.domain.user import User
 
 TEST_ADMIN = {
     'username': 'testadmin',
