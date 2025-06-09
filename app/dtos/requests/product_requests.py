@@ -1,6 +1,7 @@
-from pydantic import BaseModel, Field, field_validator
 from typing import Optional
-from datetime import datetime
+
+from pydantic import BaseModel, Field, field_validator
+
 
 class ProductBase(BaseModel):
     name: str = Field(..., min_length=1, max_length=100)
@@ -8,7 +9,7 @@ class ProductBase(BaseModel):
     stock: int = Field(..., ge=0)
 
     @field_validator('price')
-    def validate_price(cls, v):
+    def validate_price(self, v):
         if v <= 0:
             raise ValueError('Price must be greater than 0')
         return round(v, 2)
