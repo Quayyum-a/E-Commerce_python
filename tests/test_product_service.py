@@ -278,8 +278,7 @@ class TestProductEndpoints:
 
         headers = get_auth_headers(app)
         non_existent_id = 9999
-        
-        # Act
+
         response = client.delete(
             f'/api/products/{non_existent_id}',
             headers=headers
