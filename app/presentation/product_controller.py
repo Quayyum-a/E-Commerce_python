@@ -39,8 +39,7 @@ def create_product():
         create_dto = ProductCreateRequest(**request.get_json())
     except Exception as e:
         raise ValidationException(f"Invalid product data: {str(e)}")
-    
-    # Create product
+
     product_data = ProductMapper.create_to_entity(create_dto)
     product = ProductService().create_product(**product_data)
     
