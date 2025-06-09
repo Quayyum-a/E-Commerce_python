@@ -70,7 +70,6 @@ def client(app):
     return app.test_client()
 
 def get_auth_headers(app, user_id=None, role='admin'):
-    """Generate auth headers with JWT token for testing."""
     with app.app_context():
         if user_id is None:
             user_id = app.config.get('TEST_ADMIN_ID', 1)
