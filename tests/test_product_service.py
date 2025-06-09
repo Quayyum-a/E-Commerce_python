@@ -144,7 +144,6 @@ class TestProductEndpoints:
             assert 'error' in response_data
     
     def test_create_product_unauthorized(self, client, app):
-        """Test creating a product without authentication."""
         # Act
         response = client.post(
             '/api/products',
