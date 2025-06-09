@@ -30,7 +30,6 @@ def handle_forbidden_error(e):
 @bp.route('', methods=['POST'])
 @jwt_required()
 def create_product():
-    # Check admin access
     identity = get_jwt_identity()
     user_role = _get_user_role(identity, get_jwt())
     if user_role != 'admin':
