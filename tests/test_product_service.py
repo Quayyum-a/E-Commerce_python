@@ -176,7 +176,6 @@ class TestProductEndpoints:
         assert response_data['total'] == 0
     
     def test_get_products_success(self, client, app):
-        """Test getting all products."""
         with app.app_context():
             # Arrange
             headers = get_auth_headers(app)
