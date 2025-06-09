@@ -132,8 +132,7 @@ class TestProductEndpoints:
         with app.app_context():
             headers = get_auth_headers(app)
             invalid_product = {'name': '', 'price': -10, 'stock': -5}
-            
-            # Act
+
             response = client.post(
                 '/api/products',
                 json=invalid_product,
