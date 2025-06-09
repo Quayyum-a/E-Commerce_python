@@ -129,7 +129,6 @@ class TestProductEndpoints:
             assert product.stock == product_data['stock']
     
     def test_create_product_invalid_data(self, client, app):
-        """Test creating a product with invalid data."""
         with app.app_context():
             # Arrange
             headers = get_auth_headers(app)
