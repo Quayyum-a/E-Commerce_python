@@ -198,7 +198,6 @@ class TestProductEndpoints:
     
     def test_update_product_success(self, client, app):
         with app.app_context():
-            # Arrange
             headers = get_auth_headers(app)
             created_products = create_test_products(client, headers, [TEST_PRODUCTS[0]])
             product_id = created_products[0]['product_id']
@@ -208,8 +207,7 @@ class TestProductEndpoints:
                 'price': 1099.99,
                 'stock': 5
             }
-            
-            # Act
+
             response = client.put(
                 f'/api/products/{product_id}',
                 json=update_data,
