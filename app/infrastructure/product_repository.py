@@ -5,7 +5,6 @@ from app import db
 class ProductRepository:
     
     def save_product(self, product: Product) -> Product:
-
         db.session.add(product)
         db.session.commit()
         return product
