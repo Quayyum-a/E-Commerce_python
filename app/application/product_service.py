@@ -17,12 +17,6 @@ class ProductService:
             raise ValidationException(f"Failed to create product: {str(e)}")
 
     def get_products(self) -> List[Product]:
-        """
-        Retrieve all products.
-        
-        Returns:
-            List[Product]: List of all products
-        """
         return self.product_repo.find_all_products()
 
     def get_product_by_id(self, product_id: int) -> Product:
