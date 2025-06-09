@@ -239,8 +239,7 @@ class TestProductEndpoints:
             )
 
             assert response.status_code == HTTPStatus.OK
-            
-            # Verify only price was updated
+
             product = Product.query.get(product_id)
             assert product.price == update_data['price']
             assert product.name == TEST_PRODUCTS[0]['name']  # Should remain unchanged
