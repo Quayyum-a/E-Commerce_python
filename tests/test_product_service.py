@@ -105,7 +105,6 @@ def create_test_products(client, headers, products=None):
 
 
 class TestProductEndpoints:
-    """Tests for product endpoints."""
     
     def test_create_product_success(self, client, app):
         """Test creating a product with valid data."""
