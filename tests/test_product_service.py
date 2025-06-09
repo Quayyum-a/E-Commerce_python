@@ -275,7 +275,6 @@ class TestProductEndpoints:
             assert product is None
     
     def test_delete_product_not_found(self, client, app):
-        """Test deleting a non-existent product."""
         # Arrange
         headers = get_auth_headers(app)
         non_existent_id = 9999
