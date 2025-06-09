@@ -265,8 +265,7 @@ class TestProductEndpoints:
             headers = get_auth_headers(app)
             created_products = create_test_products(client, headers, [TEST_PRODUCTS[0]])
             product_id = created_products[0]['product_id']
-            
-            # Act
+
             response = client.delete(
                 f'/api/products/{product_id}',
                 headers=headers
