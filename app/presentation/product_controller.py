@@ -99,8 +99,7 @@ def delete_product(product_id: int):
     
     if not success:
         raise NotFoundException("Product")
-    
-    # Return success response
+
     response = ProductMapper.to_message_response(
         message="Product deleted successfully"
     )
