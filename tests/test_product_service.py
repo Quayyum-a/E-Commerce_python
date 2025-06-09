@@ -107,9 +107,7 @@ def create_test_products(client, headers, products=None):
 class TestProductEndpoints:
     
     def test_create_product_success(self, client, app):
-        """Test creating a product with valid data."""
         with app.app_context():
-            # Arrange
             headers = get_auth_headers(app)
             product_data = TEST_PRODUCTS[0]
             
