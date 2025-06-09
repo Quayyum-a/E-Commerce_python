@@ -48,7 +48,7 @@ def app():
         db.drop_all()
         db.create_all()
         
-        # Create admin user
+
         admin = User(
             username=TEST_ADMIN['username'],
             email=TEST_ADMIN['email'],
