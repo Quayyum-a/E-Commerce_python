@@ -23,7 +23,6 @@ class ProductMapper:
     
     @staticmethod
     def create_to_entity(create_dto: ProductCreateRequest) -> Dict[str, Any]:
-        """Convert a ProductCreateRequest DTO to a dictionary for entity creation"""
         return create_dto.model_dump()
     
     @staticmethod
