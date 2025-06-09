@@ -262,7 +262,6 @@ class TestProductEndpoints:
     
     def test_delete_product_success(self, client, app):
         with app.app_context():
-            # Arrange
             headers = get_auth_headers(app)
             created_products = create_test_products(client, headers, [TEST_PRODUCTS[0]])
             product_id = created_products[0]['product_id']
