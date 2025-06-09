@@ -1,0 +1,36 @@
+from typing import List, Dict, Any
+from app.domain.product import Product
+from app.dtos.responses.product_responses import ProductResponse, ProductListResponse, ProductMessageResponse
+from app.dtos.requests.product_requests import ProductCreateRequest, ProductUpdateRequest
+
+class ProductMapper:
+    """Mapper for converting between domain models and DTOs for Product"""
+    
+    @staticmethod
+    def to_response(product: Product) -> ProductResponse:
+        """Convert a Product domain model to a ProductResponse DTO"""
+        return ProductResponse.model_validate(product)
+    
+    @staticmethod
+    def to_list_response(products: List[Product], total: int) -> ProductListResponse:
+        """Convert a list of Product domain models to a ProductListResponse DTO"""
+        return ProductListResponse(
+            products=[ProductMapper.to_response(p) for p in products],
+            total=total
+        )
+    
+    @staticmethod
+    def to_message_response(message: str, product_id: int = None) -> ProductMessageResponse:
+        """Create a message response DTO"""
+        return ProductMessageResponse(message=message, product_id=product_id)
+    
+    @staticmethod
+    def create_to_entity(create_dto: ProductCreateRequest) -> Dict[str, Any]:
+        """Convert a ProductCreateRequest DTO to a dictionary for entity creation"""
+        return create_dto.model_dump()
+    
+    @staticmethod
+    def update_to_entity(update_dto: ProductUpdateRequest) -> Dict[str, Any]:
+        """Convert a ProductUpdateRequest DTO to a dictionary for entity update"""
+        # Only include fields that are not None
+        return {k: v for k, v in update_dto.model_dump().items() if v is not None}
