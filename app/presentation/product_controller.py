@@ -94,8 +94,7 @@ def delete_product(product_id: int):
     user_role = _get_user_role(identity, get_jwt())
     if user_role != 'admin':
         raise ForbiddenException("Admin access required")
-    
-    # Delete product
+
     success = ProductService().delete_product(product_id)
     
     if not success:
