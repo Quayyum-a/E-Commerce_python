@@ -7,7 +7,6 @@ class ProductMapper:
     
     @staticmethod
     def to_response(product: Product) -> ProductResponse:
-        """Convert a Product domain model to a ProductResponse DTO"""
         return ProductResponse.model_validate(product)
     
     @staticmethod
