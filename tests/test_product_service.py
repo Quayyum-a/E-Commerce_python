@@ -130,7 +130,6 @@ class TestProductEndpoints:
     
     def test_create_product_invalid_data(self, client, app):
         with app.app_context():
-            # Arrange
             headers = get_auth_headers(app)
             invalid_product = {'name': '', 'price': -10, 'stock': -5}
             
