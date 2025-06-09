@@ -29,7 +29,6 @@ def app():
 def client(app):
     return app.test_client()
 
-# Test Data
 TEST_USER = {
     'username': 'testuser',
     'email': 'test@example.com',
