@@ -94,3 +94,24 @@ def update_product(product_id: int):
         product_id=product.id
     )
     return jsonify(response.model_dump())
+
+@bp.route('/<int:product_id>', methods=['DELETE'])
+@jwt_required()
+def delete_product(product_id: int):
+    # Check admin access
+    identity = get_jwt_identity()
+    user_role = _get_user_role(identity, get_jwt())
+    if user_role != 'admin':
+        raise ForbiddenException("Admin access required")
+    
+    # Delete product
+    success = ProductService().delete_product(product_id)
+    
+    if not success:
+        raise NotFoundException("Product")
+    
+    # Return success response
+    response = ProductMapper.to_message_response(
+        message="Product deleted successfully"
+    )
+    return jsonify(response.model_dump()), 200
