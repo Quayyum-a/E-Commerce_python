@@ -74,8 +74,7 @@ def update_product(product_id: int):
         update_dto = ProductUpdateRequest(**request.get_json())
     except Exception as e:
         raise ValidationException(f"Invalid product data: {str(e)}")
-    
-    # Update product
+
     update_data = ProductMapper.update_to_entity(update_dto)
     product = ProductService().update_product(product_id, **update_data)
     
