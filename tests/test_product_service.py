@@ -144,7 +144,6 @@ class TestProductEndpoints:
             assert 'error' in response_data
     
     def test_create_product_unauthorized(self, client, app):
-        # Act
         response = client.post(
             '/api/products',
             json=TEST_PRODUCTS[0],
