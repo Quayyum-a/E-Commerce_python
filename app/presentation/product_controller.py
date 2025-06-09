@@ -1,11 +1,11 @@
-from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from typing import Dict, Any
 
+from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
+
 from app.application.product_service import ProductService
-from app.dtos.requests.product_requests import ProductCreateRequest, ProductUpdateRequest
-from app.dtos.responses.product_responses import ProductResponse, ProductListResponse
 from app.dtos.exceptions import ForbiddenException, NotFoundException, ValidationException
+from app.dtos.requests.product_requests import ProductCreateRequest, ProductUpdateRequest
 from app.mappers.product_mapper import ProductMapper
 
 bp = Blueprint('product', __name__, url_prefix='/api/products')
