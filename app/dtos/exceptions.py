@@ -2,7 +2,6 @@ from http import HTTPStatus
 from typing import Any, Dict, Optional
 
 class AppException(Exception):
-    """Base exception class for application exceptions"""
     def __init__(
         self,
         message: str,
