@@ -32,7 +32,6 @@ class ValidationException(AppException):
         )
 
 class UnauthorizedException(AppException):
-    """Raised when authentication is required or failed"""
     def __init__(self, message: str = "Authentication required", **kwargs):
         super().__init__(
             message=message,
