@@ -78,35 +78,53 @@ def get_auth_headers(app, user_id=None, role='admin'):
         }
 
 def test_create_product(client, app):
-    # Get authentication headers
-    headers = get_auth_headers(app)
-    
-    # Test data
-    product_data = {
-        'name': 'Test Product',
-        'price': 19.99,
-        'stock': 100
-    }
-    
-    # Make authenticated request
-    response = client.post('/api/products', 
-                         json=product_data,
-                         headers=headers)
-    
-    # Debug output
-    print(f"Response status: {response.status_code}")
-    print(f"Response data: {response.data}")
-    
-    # Assertions
-    assert response.status_code == 201, f"Expected status code 201, got {response.status_code}. Response: {response.data}"
-    assert 'message' in response.json
-    assert response.json['message'] == 'Product created'
-    assert 'product_id' in response.json
-    
-    # Verify the product was actually created in the database
+    # First, get authentication headers
     with app.app_context():
+        headers = get_auth_headers(app)
+        
+        # Test data
+        product_data = {
+            'name': 'Test Product',
+            'price': 19.99,
+            'stock': 100
+        }
+        
+        # Print debug info
+        print("Sending request with headers:", headers)
+        print("Request data:", product_data)
+        
+        # Make authenticated request
+        response = client.post(
+            '/api/products',
+            json=product_data,
+            headers=headers,
+            content_type='application/json'  # Explicitly set content type
+        )
+        
+        # Debug output
+        print(f"Response status: {response.status_code}")
+        print(f"Response data: {response.data}")
+        
+        # Check for any JWT errors first
+        if response.status_code == 422:
+            print("JWT Validation Error:", response.json)
+        
+        # Assertions
+        assert response.status_code == 201, \
+            f"Expected status code 201, got {response.status_code}. Response: {response.data}"
+            
+        response_data = response.get_json()
+        assert 'message' in response_data, "Response missing 'message' field"
+        assert response_data['message'] == 'Product created', \
+            f"Unexpected message: {response_data.get('message')}"
+        assert 'product_id' in response_data, "Response missing 'product_id' field"
+        
+        # Verify the product was actually created in the database
         product = Product.query.first()
-        assert product is not None
-        assert product.name == product_data['name']
-        assert float(product.price) == product_data['price']
-        assert product.stock == product_data['stock']
+        assert product is not None, "No product was created in the database"
+        assert product.name == product_data['name'], \
+            f"Expected product name '{product_data['name']}', got '{product.name}'"
+        assert float(product.price) == product_data['price'], \
+            f"Expected price {product_data['price']}, got {product.price}"
+        assert product.stock == product_data['stock'], \
+            f"Expected stock {product_data['stock']}, got {product.stock}"
