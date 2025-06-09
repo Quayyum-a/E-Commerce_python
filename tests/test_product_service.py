@@ -253,8 +253,7 @@ class TestProductEndpoints:
             json={'name': 'Test'},
             headers=headers
         )
-        
-        # Assert
+
         assert response.status_code == HTTPStatus.NOT_FOUND
     
     def test_delete_product_success(self, client, app):
