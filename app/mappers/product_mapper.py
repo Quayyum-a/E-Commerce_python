@@ -4,7 +4,6 @@ from app.dtos.responses.product_responses import ProductResponse, ProductListRes
 from app.dtos.requests.product_requests import ProductCreateRequest, ProductUpdateRequest
 
 class ProductMapper:
-    """Mapper for converting between domain models and DTOs for Product"""
     
     @staticmethod
     def to_response(product: Product) -> ProductResponse:
@@ -21,7 +20,7 @@ class ProductMapper:
     
     @staticmethod
     def to_message_response(message: str, product_id: int = None) -> ProductMessageResponse:
-        """Create a message response DTO"""
+
         return ProductMessageResponse(message=message, product_id=product_id)
     
     @staticmethod

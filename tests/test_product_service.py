@@ -101,7 +101,7 @@ def test_create_product(client, app):
 
 
             response_data = response.get_json()
-            assert response_data['message'] == 'Product created'
+            assert response_data['message'] == 'Product created successfully'
 
         except Exception as e:
             print("\n=== Test Failed ===")
