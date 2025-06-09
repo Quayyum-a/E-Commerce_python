@@ -164,7 +164,6 @@ class TestProductEndpoints:
         assert response.status_code == HTTPStatus.FORBIDDEN
     
     def test_get_products_empty(self, client, app):
-        """Test getting products when none exist."""
         # Act
         response = client.get('/api/products')
         
