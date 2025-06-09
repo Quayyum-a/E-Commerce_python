@@ -53,8 +53,7 @@ def create_product():
 @bp.route('', methods=['GET'])
 def get_products():
     products = ProductService().get_products()
-    
-    # Convert to response DTO
+
     response = ProductMapper.to_list_response(
         products=products,
         total=len(products)
