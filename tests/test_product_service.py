@@ -261,7 +261,6 @@ class TestProductEndpoints:
         assert response.status_code == HTTPStatus.NOT_FOUND
     
     def test_delete_product_success(self, client, app):
-        """Test deleting a product."""
         with app.app_context():
             # Arrange
             headers = get_auth_headers(app)
