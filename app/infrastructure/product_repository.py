@@ -16,15 +16,6 @@ class ProductRepository:
         return Product.query.all()
     
     def delete_product(self, product: Product) -> bool:
-        """
-        Delete a product from the database.
-        
-        Args:
-            product: The Product instance to delete
-            
-        Returns:
-            bool: True if deletion was successful, False otherwise
-        """
         try:
             db.session.delete(product)
             db.session.commit()
