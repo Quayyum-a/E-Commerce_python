@@ -13,7 +13,7 @@ def register():
         )
         return jsonify({'message': 'User registered', 'user_id': user.id}), 201
     except ValueError as e:
-        return jsonify({'error': str(e)}), 400, "email already exist"
+        return jsonify({'error': str(e), 'message': 'Email already exists'}), 400
 
 @bp.route('/login', methods=['POST'])
 def login():
