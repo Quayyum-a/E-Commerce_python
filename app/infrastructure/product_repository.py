@@ -5,15 +5,7 @@ from app import db
 class ProductRepository:
     
     def save_product(self, product: Product) -> Product:
-        """
-        Save a product to the database.
-        
-        Args:
-            product: The Product instance to save
-            
-        Returns:
-            Product: The saved product
-        """
+
         db.session.add(product)
         db.session.commit()
         return product
