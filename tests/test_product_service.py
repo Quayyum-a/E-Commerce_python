@@ -282,6 +282,5 @@ class TestProductEndpoints:
             f'/api/products/{non_existent_id}',
             headers=headers
         )
-        
-        # Assert
+
         assert response.status_code == HTTPStatus.NOT_FOUND
