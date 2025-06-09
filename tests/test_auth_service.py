@@ -4,17 +4,28 @@ from app.domain.user import User
 
 @pytest.fixture(scope='function')
 def app():
+    # Create app with test configuration
     app = create_app()
     app.config.update({
         'TESTING': True,
-        'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:'
+        'SQLALCHEMY_DATABASE_URI': 'sqlite:///:memory:',
+        'SQLALCHEMY_TRACK_MODIFICATIONS': False,
+        'JWT_SECRET_KEY': 'test-secret-key'
     })
+    
     with app.app_context():
+        # Drop all tables first to ensure a clean state
+        db.drop_all()
+        # Then create all tables
         db.create_all()
-        # Explicitly clear the User table
+        # Clear any existing data
         db.session.query(User).delete()
         db.session.commit()
+        
         yield app
+        
+        # Clean up after test
+        db.session.remove()
         db.drop_all()
 
 @pytest.fixture
