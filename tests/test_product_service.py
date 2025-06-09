@@ -87,7 +87,6 @@ def get_auth_headers(app, user_id=None, role='admin'):
 
 # Helper functions
 def create_test_products(client, headers, products=None):
-    """Helper to create test products."""
     if products is None:
         products = TEST_PRODUCTS
     
