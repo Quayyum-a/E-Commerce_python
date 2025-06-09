@@ -1,9 +1,8 @@
 import pytest
-import json
+
 from app import create_app, db
 from app.domain.user import User
-from flask_jwt_extended import decode_token, create_access_token
-from datetime import timedelta
+
 
 @pytest.fixture(scope='function')
 def app():
