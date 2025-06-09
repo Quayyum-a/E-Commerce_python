@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 from app.application.product_service import ProductService
 
 bp = Blueprint('product', __name__, url_prefix='/api/products')
@@ -8,8 +8,15 @@ bp = Blueprint('product', __name__, url_prefix='/api/products')
 @jwt_required()
 def create_product():
     identity = get_jwt_identity()
-    if identity['role'] != 'admin':
-        return jsonify({'error': 'Admin access required'}), 403
+    # Handle both string and dictionary identity formats
+    if isinstance(identity, dict):
+        if identity.get('role') != 'admin':
+            return jsonify({'error': 'Admin access required'}), 403
+    else:
+        # If identity is a string, we need to get the role from JWT claims
+        claims = get_jwt()
+        if claims.get('role') != 'admin':
+            return jsonify({'error': 'Admin access required'}), 403
     data = request.get_json()
     try:
         product = ProductService().create_product(data['name'], data['price'], data['stock'])
@@ -26,8 +33,15 @@ def get_products():
 @jwt_required()
 def update_product(product_id):
     identity = get_jwt_identity()
-    if identity['role'] != 'admin':
-        return jsonify({'error': 'Admin access required'}), 403
+    # Handle both string and dictionary identity formats
+    if isinstance(identity, dict):
+        if identity.get('role') != 'admin':
+            return jsonify({'error': 'Admin access required'}), 403
+    else:
+        # If identity is a string, we need to get the role from JWT claims
+        claims = get_jwt()
+        if claims.get('role') != 'admin':
+            return jsonify({'error': 'Admin access required'}), 403
     data = request.get_json()
     try:
         product = ProductService().update_product(product_id, data['name'], data['price'], data['stock'])
