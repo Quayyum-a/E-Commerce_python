@@ -138,8 +138,7 @@ class TestProductEndpoints:
                 json=invalid_product,
                 headers=headers
             )
-            
-            # Assert
+
             assert response.status_code == HTTPStatus.BAD_REQUEST
             response_data = response.get_json()
             assert 'error' in response_data
