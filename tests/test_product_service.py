@@ -218,8 +218,7 @@ class TestProductEndpoints:
             assert response.status_code == HTTPStatus.OK
             response_data = response.get_json()
             assert response_data['message'] == 'Product updated successfully'
-            
-            # Verify product was updated in the database
+
             product = Product.query.get(product_id)
             assert product.name == update_data['name']
             assert product.price == update_data['price']
