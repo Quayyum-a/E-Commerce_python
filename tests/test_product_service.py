@@ -190,8 +190,7 @@ class TestProductEndpoints:
             assert isinstance(response_data['products'], list)
             assert len(response_data['products']) == len(created_products)
             assert response_data['total'] == len(created_products)
-            
-            # Verify product data
+
             for i, product in enumerate(response_data['products']):
                 assert product['name'] == TEST_PRODUCTS[i]['name']
                 assert float(product['price']) == TEST_PRODUCTS[i]['price']
