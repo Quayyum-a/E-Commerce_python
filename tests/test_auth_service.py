@@ -1,6 +1,6 @@
 import pytest
 from app import create_app, db
-
+from app.domain.user import User
 
 @pytest.fixture(scope='function')
 def app():
@@ -11,6 +11,9 @@ def app():
     })
     with app.app_context():
         db.create_all()
+        # Explicitly clear the User table
+        db.session.query(User).delete()
+        db.session.commit()
         yield app
         db.drop_all()
 
