@@ -226,12 +226,10 @@ class TestProductEndpoints:
     
     def test_update_product_partial(self, client, app):
         with app.app_context():
-            # Arrange
             headers = get_auth_headers(app)
             created_products = create_test_products(client, headers, [TEST_PRODUCTS[0]])
             product_id = created_products[0]['product_id']
-            
-            # Only update the price
+
             update_data = {'price': 899.99}
             
             # Act
