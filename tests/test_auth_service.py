@@ -6,7 +6,7 @@ from app.domain.user import User
 
 @pytest.fixture(scope='function')
 def app():
-    # Create app with test configuration
+
     app = create_app()
     app.config.update({
         'TESTING': True,
