@@ -121,8 +121,7 @@ class TestProductEndpoints:
             response_data = response.get_json()
             assert response_data['message'] == 'Product created successfully'
             assert 'product_id' in response_data
-            
-            # Verify product was created in the database
+
             product = Product.query.get(response_data['product_id'])
             assert product is not None
             assert product.name == product_data['name']
