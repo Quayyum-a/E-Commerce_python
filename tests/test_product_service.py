@@ -247,8 +247,7 @@ class TestProductEndpoints:
     def test_update_product_not_found(self, client, app):
         headers = get_auth_headers(app)
         non_existent_id = 9999
-        
-        # Act
+
         response = client.put(
             f'/api/products/{non_existent_id}',
             json={'name': 'Test'},
