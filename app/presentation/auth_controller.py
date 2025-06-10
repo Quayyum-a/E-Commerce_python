@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.application.auth_service import AuthService
+from sqlalchemy.exc import IntegrityError
 
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
@@ -14,6 +15,8 @@ def register():
         return jsonify({'message': 'User registered', 'user_id': user.id}), 201
     except ValueError as e:
         return jsonify({'error': str(e), 'message': 'Email already exists'}), 400
+    except IntegrityError:
+        return jsonify({'error': 'Username or email already exists'}), 400
 
 @bp.route('/login', methods=['POST'])
 def login():
