@@ -1,10 +1,9 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask_cors import CORS
+
 from app.application.order_service import OrderService
 
 bp = Blueprint('order', __name__, url_prefix='/api/orders')
-CORS(bp)
 
 @bp.route('', methods=['POST'])
 @jwt_required()
