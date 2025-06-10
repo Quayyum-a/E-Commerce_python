@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify
 from app.application.auth_service import AuthService
 from sqlalchemy.exc import IntegrityError
+from flask_cors import CORS
 
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
+CORS(bp)
 
 @bp.route('/register', methods=['POST'])
 def register():

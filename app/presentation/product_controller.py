@@ -1,6 +1,7 @@
 from typing import Dict, Any
 
 from flask import Blueprint, request, jsonify
+from flask_cors import CORS
 from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 from app.application.product_service import ProductService
@@ -9,6 +10,7 @@ from app.dtos.requests.product_requests import ProductCreateRequest, ProductUpda
 from app.mappers.product_mapper import ProductMapper
 
 bp = Blueprint('product', __name__, url_prefix='/api/products')
+CORS(bp)
 
 def _get_user_role(identity: Any, jwt: Dict[str, Any]) -> str:
     if isinstance(identity, dict):
