@@ -28,8 +28,8 @@ def create_app():
     JWTManager(app)
     
     from app.presentation import auth_controller, product_controller, order_controller
-    app.register_blueprint(auth_controller.bp, url_prefix='/api')
-    app.register_blueprint(product_controller.bp, url_prefix='/api')
-    app.register_blueprint(order_controller.bp, url_prefix='/api')
-    
+    app.register_blueprint(auth_controller.bp)
+    app.register_blueprint(product_controller.bp)
+    app.register_blueprint(order_controller.bp)
+
     return app
