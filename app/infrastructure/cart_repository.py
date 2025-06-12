@@ -1,20 +1,20 @@
-
 from app.domain.cart import Cart
+from app import db
 
 class CartRepository:
-    def __init__(self):
-        self.carts = {}
-
     def add_cart(self, cart: Cart):
-        self.carts[cart.id] = cart
+        db.session.add(cart)
+        db.session.commit()
+        return cart
 
     def get_cart(self, cart_id: int):
-        return self.carts.get(cart_id)
+        return Cart.query.get(cart_id)
 
     def remove_cart(self, cart_id: int):
-        if cart_id in self.carts:
-            del self.carts[cart_id]
+        cart = Cart.query.get(cart_id)
+        if cart:
+            db.session.delete(cart)
+            db.session.commit()
 
     def get_carts_by_user(self, user_id: int):
-        return [cart for cart in self.carts.values() if cart.user_id == user_id]
-
+        return Cart.query.filter_by(user_id=user_id).all()
