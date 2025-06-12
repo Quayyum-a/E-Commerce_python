@@ -25,6 +25,23 @@ entity "Orders" {
   status : varchar
 }
 
+entity "Carts" {
+  *id : int <<PK>>
+  --
+  user_id : int <<FK>>
+}
+
+entity "CartItems" {
+  *id : int <<PK>>
+  --
+  cart_id : int <<FK>>
+  product_id : int <<FK>>
+  quantity : int
+}
+
 Users ||--o{ Orders
 Products ||--o{ Orders
+Users ||--o{ Carts
+Carts ||--o{ CartItems
+CartItems }o--|| Products
 @enduml
