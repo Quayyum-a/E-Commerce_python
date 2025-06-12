@@ -2,8 +2,6 @@ import pytest
 from app import create_app, db
 from app.domain.user import User
 from app.domain.product import Product
-from app.domain.cart import Cart
-from app.domain.cart_item import CartItem
 
 TEST_USER = {
     'username': 'cartuser',
@@ -121,7 +119,6 @@ def test_clear_cart(client, app):
     response = client.post('/api/cart/', json={'user_id': user_id})
     cart_id = response.json['cart']['id']
     client.post(f'/api/cart/{cart_id}/items', json={'product_id': product_id, 'quantity': 2})
-    # Simulate clear by removing all items
     from app.domain.cart import Cart
     from app import db
     cart = db.session.get(Cart, cart_id)
