@@ -51,4 +51,3 @@ def test_remove_cart_item(cart_repo, cart_item_repo):
     cart_item_repo.remove_cart_item(cart_item.id)
     items = cart_item_repo.get_items_by_cart(cart.id)
     assert len(items) == 0
-

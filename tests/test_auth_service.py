@@ -36,6 +36,7 @@ TEST_USER = {
     'role': 'customer'
 }
 
+class TestUser(User):
 def test_register_user_success(client):
     response = client.post('/api/auth/register', 
                          json=TEST_USER,
