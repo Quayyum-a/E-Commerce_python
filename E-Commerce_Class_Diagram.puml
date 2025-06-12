@@ -27,7 +27,29 @@ package "Domain" {
     -status: string
     +place_order()
   }
+
+  class Cart {
+    -id: int
+    -user_id: int
+    +get_items()
+    +add_item()
+    +remove_item()
+    +clear_cart()
+  }
+
+  class CartItem {
+    -id: int
+    -cart_id: int
+    -product_id: int
+    -quantity: int
+  }
 }
+
+User "1" -- "1" Cart : owns >
+Cart "1" -- "*" CartItem : contains >
+CartItem "*" -- "1" Product : references >
+User "1" -- "*" Order : places >
+Order "*" -- "1" Product : contains >
 
 package "Application" {
   class AuthService {
@@ -44,6 +66,13 @@ package "Application" {
   class OrderService {
     +place_order()
     +get_user_orders()
+  }
+
+  class CartService {
+    +add_to_cart()
+    +remove_from_cart()
+    +get_cart()
+    +checkout()
   }
 }
 
@@ -63,32 +92,15 @@ package "Infrastructure" {
     +save_order()
     +find_orders_by_user()
   }
-}
 
-package "Presentation" {
-  class AuthController {
-    +register_endpoint()
-    +login_endpoint()
-  }
-
-  class ProductController {
-    +create_product_endpoint()
-    +get_products_endpoint()
-  }
-
-  class OrderController {
-    +place_order_endpoint()
-    +get_orders_endpoint()
+  class CartRepository {
+    +save_cart()
+    +find_cart_by_user()
   }
 }
 
-UserRepository --> User
-ProductRepository --> Product
-OrderRepository --> Order
-AuthService --> UserRepository
-ProductService --> ProductRepository
-OrderService --> OrderRepository
-AuthController --> AuthService
-ProductController --> ProductService
-OrderController --> OrderService
+AuthService ..> UserRepository
+ProductService ..> ProductRepository
+OrderService ..> OrderRepository
+CartService ..> CartRepository
 @enduml
