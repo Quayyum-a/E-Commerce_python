@@ -11,7 +11,7 @@ class ProductResponse(BaseModel):
     updated_at: Optional[datetime] = None
 
     class Config:
-        from_attributes = True  # For SQLAlchemy model compatibility
+        from_attributes = True
 
 class ProductListResponse(BaseModel):
     products: list[ProductResponse]
