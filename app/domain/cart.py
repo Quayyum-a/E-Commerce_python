@@ -2,7 +2,7 @@ class Cart:
     def __init__(self, id: int, user_id: int):
         self.id = id
         self.user_id = user_id
-        self.items = []  # List of CartItem
+        self.items = []
 
     def get_items(self):
         return self.items
